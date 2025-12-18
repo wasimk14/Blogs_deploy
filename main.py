@@ -47,8 +47,9 @@ def load_user(user_id):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DB_URI',
-    'sqlite:///posts.db'
+    'sqlite:///' + os.path.join(app.instance_path, 'posts.db')
 )
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
