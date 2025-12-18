@@ -1,0 +1,6 @@
+id,email,password,username
+1,wasimk14@umail.com,pbkdf2:sha256:1000000$W0fI9A0llbsP8UC8$db47ab80e7731880449838853fc61ab5c44c3c6459bb4c8edebe4e1251311409,Aslam Lukde
+2,sidra@umail.com,pbkdf2:sha256:1000000$qPMkJzPEVPE0ttBH$f2a61bca11cdd58a4a7639abe615b9eb761362840320851b789ea514a14d1784,Sidra Lukade
+3,umar@umail.com,pbkdf2:sha256:1000000$lDdB2ST0rgKk7zep$3d8162f81d9a1b6ce93e2ae2a1ba4447356549cfd24f37c5bde0a3eaf9302c6d,Umar Lukade
+4,izaan@umail.com,pbkdf2:sha256:1000000$WFroIJwH4dO0SdGo$0729f3fafd4259f84b070634675a3f6721209bef3981977dc8dd6d59a58c4eea,Izaan Lukade
+5,fariha@umail.com,pbkdf2:sha256:1000000$PPRS33rb2r68qirl$b3ee25b544a21a8a47fad9cb19d353184775f223948d5e494c301d768146ac96,Fariha Lukade

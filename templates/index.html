@@ -1,0 +1,69 @@
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('../static/assets/img/home-bg.jpg')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Aslam's Blogging</h1>
+          <span class="subheading">Aslam's Collection of Blog Theme</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+
+      <!-- Blog Posts -->
+      {% for blog in blogs %}
+        <div class="post-preview">
+
+          <!-- Post link (everyone can see) -->
+          <a href="{{ url_for('show_post', blog_id=blog.id) }}">
+            <h2 class="post-title">{{ blog.title }}</h2>
+            <h3 class="post-subtitle">{{ blog.subtitle }}</h3>
+          </a>
+
+          <p class="post-meta">
+            Posted by {{ blog.author.username }} on {{ blog.date }}
+          </p>
+
+          <!-- Admin-only actions -->
+          {% if current_user.is_authenticated and current_user.is_admin %}
+            <div class="mt-2">
+              <a href="{{ url_for('edit_post', blog_id=blog.id) }}"
+                 class="btn btn-sm btn-outline-primary">
+                Edit
+              </a>
+
+              <a href="{{ url_for('delete_post', blog_id=blog.id) }}"
+                 class="btn btn-sm btn-outline-danger"
+                 onclick="return confirm('Delete this post?')">
+                Delete
+              </a>
+            </div>
+          {% endif %}
+
+        </div>
+        <hr class="my-4">
+      {% endfor %}
+
+      <!-- Create New Post (admin only) -->
+      {% if current_user.is_authenticated and current_user.is_admin %}
+        <div class="d-flex justify-content-end mb-4">
+          <a class="btn btn-primary" href="{{ url_for('new_post') }}">
+            Create New Post
+          </a>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}

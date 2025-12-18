@@ -1,0 +1,117 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{ post.img_url }}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ post.title }}</h1>
+          <h2 class="subheading">{{ post.subtitle }}</h2>
+          <span class="meta">
+            Posted by {{ post.author.username }} on {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <!-- Home Button -->
+    <div class="mb-4">
+      <a href="{{ url_for('get_all_posts') }}"
+         class="btn btn-outline-primary">
+        ← Home
+      </a>
+    </div>
+
+
+<!-- Post Content -->
+<article>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+
+        {{ post.body | safe }}
+
+        <hr>
+
+        <!-- ================= COMMENTS ================= -->
+        <h4 class="mb-3">Comments</h4>
+
+        {% if post.comments %}
+          {% for comment in post.comments %}
+            <div class="d-flex align-items-start mb-3 p-3 border rounded bg-light">
+
+              <!-- Gravatar -->
+              <img src="{{ comment.author.email | gravatar }}"
+                   class="rounded-circle me-3"
+                   width="45"
+                   height="45"
+                   alt="Avatar">
+
+              <div class="flex-grow-1">
+                <p class="mb-1">{{ comment.text | safe }}</p>
+                <small class="text-muted">
+                  — {{ comment.author.username }}
+                </small>
+
+                <!-- Comment Actions -->
+                {% if current_user.is_authenticated %}
+                  <div class="mt-2">
+
+                    {% if current_user.id == comment.author_id %}
+                      <a href="{{ url_for('edit_comment', comment_id=comment.id) }}"
+                         class="btn btn-sm btn-outline-primary">
+                        Edit
+                      </a>
+                    {% endif %}
+
+                    {% if current_user.id == comment.author_id or current_user.is_admin %}
+                      <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
+                         class="btn btn-sm btn-outline-danger"
+                         onclick="return confirm('Delete this comment?')">
+                        Delete
+                      </a>
+                    {% endif %}
+
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted">No comments yet.</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- ================= ADMIN POST EDIT ================= -->
+        {% if current_user.is_authenticated and current_user.is_admin %}
+          <div class="d-flex justify-content-end mb-4">
+            <a class="btn btn-primary"
+               href="{{ url_for('edit_post', blog_id=post.id) }}">
+              Edit Post
+            </a>
+          </div>
+        {% endif %}
+
+        <!-- ================= ADD COMMENT ================= -->
+        <h4 class="mb-3">Leave a Comment</h4>
+
+        {% if current_user.is_authenticated %}
+          {{ ckeditor.load() }}
+          {{ render_form(form) }}
+        {% else %}
+          <p class="text-muted">
+            <a href="{{ url_for('login') }}">Log in</a> to leave a comment.
+          </p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</article>
+
+{% include "footer.html" %}
